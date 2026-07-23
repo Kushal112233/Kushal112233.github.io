@@ -1,0 +1,374 @@
+/* ==========================================================================
+   Kushalreddy.tech — design tokens
+   ========================================================================== */
+:root {
+  --black: #000000;
+  --near-black: #060607;
+
+  --cyan: #38f2f6;
+  --cyan-dim: #1c8f92;
+
+  --mint: #b9f6ca;
+  --ice: #a3d9f5;
+  --violet: #8c9bff;
+
+  --panel-1: #55585e;
+  --panel-2: #34363a;
+  --panel-3: #17181a;
+
+  --ink: #ffffff;
+  --muted: #c7cdd6;
+
+  --font-display: "Fredoka", ui-rounded, "SF Pro Rounded", "Baloo 2", "Nunito", "Segoe UI", sans-serif;
+  --font-body: "Quicksand", ui-rounded, "SF Pro Rounded", "Nunito", "Segoe UI", sans-serif;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--black);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100dvh;
+  min-height: 100vh;
+  background: var(--black);
+  color: var(--ink);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   Loading overlay — shared by loading.html (splash) and index.html (intro)
+   ========================================================================== */
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--black);
+  will-change: opacity;
+}
+
+.loading-mark {
+  width: clamp(110px, 24vw, 220px);
+  height: auto;
+  opacity: 0;
+  filter: drop-shadow(0 0 clamp(14px, 3vw, 34px) rgba(56, 242, 246, 0.35));
+  transform: translateZ(0);
+}
+
+.loading-overlay::before {
+  content: "";
+  position: absolute;
+  width: min(70vw, 520px);
+  height: min(70vw, 520px);
+  background: radial-gradient(circle, rgba(56, 242, 246, 0.16) 0%, rgba(56, 242, 246, 0) 68%);
+  animation: pulse-glow 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.55; transform: scale(0.94); }
+  50%      { opacity: 1;    transform: scale(1.04); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loading-overlay::before { animation: none; }
+}
+
+/* ==========================================================================
+   Landing page structure
+   ========================================================================== */
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  min-height: 100vh;
+  background: var(--black);
+}
+
+.hero {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54vh;
+  min-height: 54dvh;
+  padding: clamp(40px, 9vh, 110px) 24px clamp(24px, 4vh, 40px);
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 8%;
+  width: min(80vw, 620px);
+  height: min(80vw, 620px);
+  background: radial-gradient(circle, rgba(56, 242, 246, 0.14) 0%, rgba(56, 242, 246, 0) 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.brand {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(18px, 4vh, 34px);
+  width: 100%;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.brand-mark {
+  width: clamp(96px, 20vw, 190px);
+  height: auto;
+  filter: drop-shadow(0 0 22px rgba(56, 242, 246, 0.25));
+}
+
+.brand-name {
+  margin: 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.9rem, 6.4vw, 3.1rem);
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+  background: linear-gradient(90deg, var(--mint) 0%, var(--ice) 48%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Wave divider — soft seam between the hero glow and the elevated panel below.
+   Filled to match --near-black so the panel reads as a lifted surface, not a
+   flat cut. */
+.wave {
+  position: relative;
+  flex: 0 0 auto;
+  line-height: 0;
+  margin-bottom: -1px; /* seam guard against subpixel gaps */
+}
+
+.wave svg {
+  display: block;
+  width: 100%;
+  height: clamp(56px, 10.5vw, 145px);
+  transform: translateY(1px);
+}
+
+.panel {
+  position: relative;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: linear-gradient(180deg, var(--near-black) 0%, var(--black) 55%);
+  padding: clamp(28px, 6vh, 64px) 24px calc(clamp(32px, 8vh, 80px) + env(safe-area-inset-bottom, 0px));
+}
+
+.panel-inner {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(10px, 2.2vh, 18px);
+}
+
+.panel-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2.1rem);
+  color: var(--ink);
+}
+
+.panel-subtitle {
+  margin: 0 0 clamp(6px, 1.4vh, 14px);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: clamp(0.95rem, 3vw, 1.15rem);
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ==========================================================================
+   CTA button — dark radial surface (matches the brand's black/grey palette)
+   with a cyan-lit underline and mint→ice→violet gradient label, so the
+   button reads as part of the same identity as the wordmark above it.
+   ========================================================================== */
+.cta {
+  --cta-glow: rgba(56, 242, 246, 0.32);
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  padding: clamp(14px, 2.6vh, 18px) clamp(28px, 6vw, 40px);
+  border: 0;
+  border-radius: 999px;
+
+  background: radial-gradient(ellipse at bottom, var(--panel-1) 0%, var(--panel-3) 55%, var(--near-black) 100%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 10px 30px rgba(0, 0, 0, 0.45);
+
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  cursor: pointer;
+
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out);
+}
+
+/* Lit underline, echoing the hero's cyan glow */
+.cta::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  width: 70%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--cyan) 50%, transparent 100%);
+  opacity: 0.35;
+  transition: opacity 0.3s var(--ease-out);
+}
+
+.cta span {
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(90deg, var(--mint) 0%, var(--ice) 48%, var(--violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cta:hover,
+.cta:focus-visible {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 16px 40px var(--cta-glow);
+}
+
+.cta:hover::before,
+.cta:focus-visible::before {
+  opacity: 1;
+}
+
+.cta:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta { transition: none; }
+}
+
+/* ==========================================================================
+   Content reveal — plays once the loading overlay finishes on index.html
+   ========================================================================== */
+.page {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+body.content-revealed .page {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.7s var(--ease-out), transform 0.7s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page { transition: none; }
+}
+
+/* ==========================================================================
+   Desktop treatment — same identity, contained column, roomier stage
+   ========================================================================== */
+@media (min-width: 900px) {
+  .hero {
+    padding-top: clamp(80px, 14vh, 150px);
+  }
+
+  .brand {
+    gap: 28px;
+  }
+
+  .panel {
+    padding-top: clamp(40px, 7vh, 72px);
+  }
+
+  .panel-inner {
+    max-width: 420px;
+  }
+
+  .cta:hover {
+    transform: translateY(-4px) scale(1.02);
+  }
+}
+
+@media (min-width: 1300px) {
+  .wave svg {
+    height: 120px;
+  }
+}
+
+/* Short / landscape mobile viewports: tighten vertical rhythm so nothing clips */
+@media (max-height: 560px) and (orientation: landscape) {
+  .hero {
+    padding-top: 20px;
+    padding-bottom: 16px;
+  }
+  .brand-mark {
+    width: clamp(64px, 12vh, 110px);
+  }
+  .brand { gap: 12px; }
+  .panel { padding-top: 18px; padding-bottom: 24px; }
+  .panel-inner { gap: 8px; }
+}
+
+/* Very small phones */
+@media (max-width: 340px) {
+  .brand-name { font-size: 1.6rem; }
+  .panel-title { font-size: 1.3rem; }
+}
